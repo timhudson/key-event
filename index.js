@@ -5,6 +5,11 @@ module.exports = on;
 module.exports.on = on;
 module.exports.off = off;
 
+// Trim with fallback for IE
+var trim = ''.trim
+  ? function(s) { return s.trim(); }
+  : function(s) { return s.replace(/(^\s*|\s*$)/g, ''); };
+
 function on (element, keys, callback) {
   var expected = parse(keys);
 
@@ -36,7 +41,7 @@ function parse (keys){
 
   var i = keys.length, name;
   while ( i -- ){
-    name = keys[i].trim();
+    name = trim(keys[i]);
 
     if(name == 'ctrl') {
       result.ctrl = true;
@@ -53,7 +58,7 @@ function parse (keys){
       continue;
     }
 
-    result.key = name.trim();
+    result.key = trim(name);
   }
 
   return result;
